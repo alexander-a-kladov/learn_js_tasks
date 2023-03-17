@@ -1,11 +1,11 @@
-const Router = require('express');
+const Router = require('../framework/Router');
 const router = new Router();
 const genreController = require('../controller/genre.controller');
 
 router.post('/genre', genreController.createGenre);
-router.get('/genre', genreController.getGenres);
-router.get('/genre/:id', genreController.getGenre);
+router.get('/genres', genreController.getGenres);
+router.get('/genre', genreController.getGenre);
 router.put('/genre', genreController.updateGenre);
-router.delete('/genre/:id', genreController.deleteGenre);
+router.delete('/genre', genreController.deleteGenre);
  
 module.exports = router;

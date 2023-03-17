@@ -1,13 +1,26 @@
-const express = require('express');
-const genreRoute = require('./routes/genre.routers');
-const filmRoute = require('./routes/film.routers');
-const filmGenreRoute = require('./routes/filmgenre.routers');
+const Application = require('./framework/Application');
+const filmRouter = require('./routes/film.routers');
+const genreRouter = require('./routes/genre.routers');
+const filmGenreRouter = require('./routes/filmgenre.routers');
+const jsonParser = require('./framework/parseJson');
+const parseUrl = require('./framework/parseUrl');
+
 const PORT = process.env.PORT || 8080;
 
-const app = express();
-app.use(express.json());
-app.use('/api', genreRoute);
-app.use('/api', filmRoute);
-app.use('/api', filmGenreRoute);
+const app = new Application();
+app.use(jsonParser);
+app.use(parseUrl('http://localhost:'+PORT));
 
-app.listen(PORT, ()=>console.log(`server started on port ${PORT}`));
+app.addRouter("/api", filmRouter);
+app.addRouter("/api", genreRouter);
+app.addRouter("/api", filmGenreRouter);
+
+const start = async()=> {
+    try {;
+        app.listen(PORT, ()=>console.log(`Server started on port ${PORT}`));
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+start();
